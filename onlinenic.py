@@ -786,8 +786,8 @@ class OnlineNIC(object):
         return hashlib.md5(''.join(checksum)).hexdigest()
 
     def generate_cltrid(self, length=32):
-    """Generate a random cltrid."""
-    return hashlib.sha512(uuid.uuid4().hex).hexdigest()[0:length]
+        """Generate a random cltrid."""
+        return hashlib.sha512(uuid.uuid4().hex).hexdigest()[0:length]
 
     def determine_domaintype(self, domain):
         """Return the ONLINE_DOMAIN_TYPE for a domain."""
