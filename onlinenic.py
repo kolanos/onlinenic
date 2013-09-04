@@ -754,7 +754,7 @@ class OnlineNIC(object):
                 raise InvalidResponseError(
                         'No <{}> found in response.'.format(key)
                 )
-            contents.set(key, value.string.strip())
+            contents[key] = value.string.strip()
 
         if contents['code'] in ONLINENIC_ERRORS:
             raise ONLINENIC_ERRORS[contents['code']](
@@ -766,7 +766,7 @@ class OnlineNIC(object):
             contents['data'] = {}
             for d in resdata.contents:
                 if d is not None and d.string.strip():
-                    contents['data'].set(d.get('name'), d.string.strip())
+                    contents['data'][d.get('name')] = d.string.strip()
 
         return contents
 
