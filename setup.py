@@ -8,7 +8,7 @@ def read(fname):
 
 
 setup(
-    name='OnlineNIC',
+    name='onlinenic',
     version='0.1.0',
     url='http://github.com/kolanos/onlinenic',
     license='MIT',
