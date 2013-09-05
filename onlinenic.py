@@ -747,7 +747,7 @@ class OnlineNIC(object):
             raise InvalidResponseError('No <response> container found.')
 
         contents = {}
-        for key in ['code', 'msg', 'value', 'categoy', 'action', 'cltrid',
+        for key in ['code', 'msg', 'value', 'category', 'action', 'cltrid',
                     'svtrid', 'checksum']:
             value = response.find(key)
             if value is None:
