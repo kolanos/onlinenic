@@ -747,14 +747,18 @@ class OnlineNIC(object):
             raise InvalidResponseError('No <response> container found.')
 
         contents = {}
-        for key in ['code', 'msg', 'value', 'category', 'action', 'cltrid',
-                    'svtrid', 'checksum']:
+        for key in ['code', 'msg', 'value', 'category', 'action']:
             value = response.find(key)
             if value is None:
                 raise InvalidResponseError(
-                        'No <{}> found in response.'.format(key)
+                        'No {} found in response.'.format(key)
                 )
             contents[key] = value.string.strip()
+
+        for key in ['cltrid', 'svtrid', 'checksum']:
+            value = response.find(key)
+            contents[key] = value.string.strip() if value else None
+
 
         if contents['code'] in ONLINENIC_ERRORS:
             raise ONLINENIC_ERRORS[contents['code']](
