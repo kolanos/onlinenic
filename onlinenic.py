@@ -665,12 +665,15 @@ ONLINENIC_ERRORS = {
 class OnlineNIC(object):
     """OnlineNIC API wrapper class."""
 
-    def __init__(self, client_id, password, live=False):
+    def __init__(self, client_id, password, live=False, debug=False,
+                 auto_login=True):
         self.client_id = client_id
         self.password = password
+        self.debug = debug
         self.set_server(live)
         self.socket = telnetlib.Telnet(self.server[0], self.server[1])
-        self.login()
+        if auto_login:
+            self.login()
 
     def __del__(self):
         self.logout()
@@ -687,10 +690,14 @@ class OnlineNIC(object):
         return super(OnlineNIC, self).__getattr__(name)
 
     def read(self):
-        msg = self.socket.read_until('</response>')
-        return msg.strip()
+        xml = self.socket.read_until('</response>')
+        if self.debug:
+            print(xml)
+        return xml.strip()
 
     def write(self, xml):
+        if self.debug:
+            print(xml)
         self.socket.write(xml + "\n")
 
     def request(self, cmd, **params):
@@ -701,6 +708,8 @@ class OnlineNIC(object):
         # OnlineNIC sends a greeting after loggin.
         if cmd == 'login':
             greeting = self.read()
+            if self.debug:
+                print(greeting)
 
         if cmd in ['login', 'logout']:
             params['clid'] = self.client_id
@@ -747,18 +756,14 @@ class OnlineNIC(object):
             raise InvalidResponseError('No <response> container found.')
 
         contents = {}
-        for key in ['code', 'msg', 'value', 'category', 'action']:
+        for key in ['code', 'msg', 'value', 'category', 'action', 'cltrid',
+                    'svtrid', 'chksum']:
             value = response.find(key)
             if value is None:
                 raise InvalidResponseError(
                         'No {} found in response.'.format(key)
                 )
             contents[key] = value.string.strip()
-
-        for key in ['cltrid', 'svtrid', 'checksum']:
-            value = response.find(key)
-            contents[key] = value.string.strip() if value else None
-
 
         if contents['code'] in ONLINENIC_ERRORS:
             raise ONLINENIC_ERRORS[contents['code']](
