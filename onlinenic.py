@@ -802,8 +802,8 @@ class OnlineNIC(object):
         return hashlib.sha512(uuid.uuid4().hex).hexdigest()[0:length]
 
     def determine_domaintype(self, domain):
-        """Return the ONLINE_DOMAIN_TYPE for a domain."""
-        for ext, code in ONLINE_DOMAIN_TYPES.iteritems():
+        """Return the ONLINENIC_DOMAIN_TYPE for a domain."""
+        for ext, code in ONLINENIC_DOMAIN_TYPES.iteritems():
             if domain.endswith(ext):
                 return code
         return None
