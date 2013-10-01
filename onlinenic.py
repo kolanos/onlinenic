@@ -778,7 +778,16 @@ class OnlineNIC(object):
             contents['data'] = {}
             for d in resdata.contents:
                 if d is not None and d.string.strip():
-                    contents['data'][d.get('name')] = d.string.strip()
+                    key = d.get('name')
+                    val = d.string.strip()
+                    if key in contents['data'].keys():
+                        if not isinstance(contents['data'][key], list):
+                            existing_val = contents['data'][key]
+                            contents['data'][key] = []
+                            contents['data'][key].append(existing_val)
+                        contents['data'][key].append(val)
+                    else:
+                        contents['data'][key] = val
 
         return contents
 
