@@ -816,3 +816,12 @@ class OnlineNIC(object):
             if domain.endswith(ext):
                 return code
         return None
+
+    def idna_encode(self, domain):
+        """IDNA encode the domain name."""
+        try:
+            if isinstance(domain, str):
+                domain = domain.decode('utf-8')
+            return domain.encode('idna')
+        except UnicodeError:
+            return domain
