@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name='OnlineNIC',
-    version='0.1.1',
+    version='0.1.2',
     url='http://github.com/kolanos/onlinenic',
     license='MIT',
     author='Michael Lavers',

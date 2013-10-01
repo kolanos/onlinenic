@@ -745,7 +745,10 @@ class OnlineNIC(object):
         request = '\n'.join(request)
         self.write(request)
 
-        return self.response()
+        # OnlineNIC doesn't always respond to a logout. We don't need to wait
+        # for one as we usually close the socket immediately afterwards.
+        if cmd != 'logout':
+            return self.response()
 
     def response(self):
         """Handle/parse the OnlineNIC API response."""
