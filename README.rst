@@ -2,7 +2,9 @@
 OnlineNIC
 =========
 
-A simple wrapper for the `OnlineNIC`<http://www.onlinenic.com> API.
+A simple wrapper for the OnlineNIC_ API.
+
+.. _OnlineNIC: http://www.onlinenic.com
 
 Usage
 -----
